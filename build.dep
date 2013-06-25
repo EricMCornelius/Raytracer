@@ -1,0 +1,17 @@
+env.compiler_flags = ['-std=c++11'];
+
+register({
+  id: 'raytracer',
+  language: 'c++',
+  type: 'application',
+  deps: ['armadillo']
+});
+
+register({
+  id: 'armadillo',
+  language: 'c++',
+  type: 'external',
+  includedirs: ['/usr/include'],
+  libdirs: ['/usr/lib'],
+  libs: ['armadillo']
+});
