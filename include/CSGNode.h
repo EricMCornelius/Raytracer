@@ -42,19 +42,14 @@ private:
 
 template <typename T>
 GenericCSGNode<T>::GenericCSGNode(GenericQuadric<T>* shape)
-    : d_shape(shape), d_left(0), d_right(0), d_type(QUADRIC)
-{
-}
+    : d_shape(shape), d_left(0), d_right(0), d_type(QUADRIC) {}
 
 template <typename T>
 GenericCSGNode<T>::GenericCSGNode(const OP_TYPE::OP& op, GenericCSGNode* left, GenericCSGNode* right)
-    : d_shape(0), d_left(left), d_right(right), d_type(OPERATOR), d_op(op)
-{
-}
+    : d_shape(0), d_left(left), d_right(right), d_type(OPERATOR), d_op(op) {}
 
 template <typename T>
-void GenericCSGNode<T>::print(std::ostream& out) const
-{
+void GenericCSGNode<T>::print(std::ostream& out) const {
   switch (d_type) {
     case QUADRIC:
       d_shape->print(out);
@@ -70,8 +65,7 @@ void GenericCSGNode<T>::print(std::ostream& out) const
 }
 
 template <typename T>
-void GenericCSGNode<T>::print(const OP_TYPE::OP& op, std::ostream& out) const
-{
+void GenericCSGNode<T>::print(const OP_TYPE::OP& op, std::ostream& out) const {
   switch (op) {
     case OP_TYPE::UNION:
       out << " UNION ";
@@ -88,8 +82,7 @@ void GenericCSGNode<T>::print(const OP_TYPE::OP& op, std::ostream& out) const
 }
 
 template <typename T>
-bool GenericCSGNode<T>::contains(const Vector& point)
-{
+bool GenericCSGNode<T>::contains(const Vector& point) {
   switch (d_type) {
     case OPERATOR:
       switch (d_op) {
@@ -114,8 +107,7 @@ bool GenericCSGNode<T>::contains(const Vector& point)
 }
 
 template <typename T>
-void GenericCSGNode<T>::intersection(const GenericRay<T>& ray, std::set<T>& dists)
-{
+void GenericCSGNode<T>::intersection(const GenericRay<T>& ray, std::set<T>& dists) {
   switch (d_type) {
     case OPERATOR:
       d_left->intersection(ray, dists);
@@ -131,8 +123,7 @@ void GenericCSGNode<T>::intersection(const GenericRay<T>& ray, std::set<T>& dist
 }
 
 template <typename T>
-void GenericCSGNode<T>::setPosition(const Vector& position)
-{
+void GenericCSGNode<T>::setPosition(const Vector& position) {
   switch (d_type) {
     case OPERATOR:
       d_left->setPosition(position);
@@ -147,8 +138,7 @@ void GenericCSGNode<T>::setPosition(const Vector& position)
 }
 
 template <typename T>
-void GenericCSGNode<T>::setOrientation(const Vector& orientation)
-{
+void GenericCSGNode<T>::setOrientation(const Vector& orientation) {
   switch (d_type) {
     case OPERATOR:
       d_left->setOrientation(orientation);
@@ -163,8 +153,7 @@ void GenericCSGNode<T>::setOrientation(const Vector& orientation)
 }
 
 template <typename T>
-void GenericCSGNode<T>::setScale(const Vector& scale)
-{
+void GenericCSGNode<T>::setScale(const Vector& scale) {
   switch (d_type) {
     case OPERATOR:
       d_left->setScale(scale);
@@ -179,8 +168,7 @@ void GenericCSGNode<T>::setScale(const Vector& scale)
 }
 
 template <typename T>
-Vector GenericCSGNode<T>::normal(const Vector& point)
-{
+Vector GenericCSGNode<T>::normal(const Vector& point) {
   return NULL;
 }
 

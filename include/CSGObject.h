@@ -31,34 +31,28 @@ public:
 };
 
 template <typename T>
-GenericCSGObject<T>::GenericCSGObject()
-{
-}
+GenericCSGObject<T>::GenericCSGObject() {}
 
 template <typename T>
-GenericCSGObject<T>::GenericCSGObject(const OP_TYPE::OP& op, const GenericCSGObject<T>& obj1, const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T>::GenericCSGObject(const OP_TYPE::OP& op, const GenericCSGObject<T>& obj1, const GenericCSGObject<T>& obj2) {
   root = new GenericCSGNode<T>(op, obj1.root, obj2.root);
   return;
 }
 
 template <typename T>
-GenericCSGObject<T>::GenericCSGObject(const OP_TYPE::OP& op, const GenericCSGObject<T>* obj1, const GenericCSGObject<T>* obj2)
-{
+GenericCSGObject<T>::GenericCSGObject(const OP_TYPE::OP& op, const GenericCSGObject<T>* obj1, const GenericCSGObject<T>* obj2) {
   root = new GenericCSGNode<T>(op, obj1->root, obj2->root);
   return;
 }
 
 template <typename T>
-GenericCSGObject<T>::GenericCSGObject(GenericQuadric<T>& shape)
-{
+GenericCSGObject<T>::GenericCSGObject(GenericQuadric<T>& shape) {
   root = new GenericCSGNode<T>(&shape);
   return;
 }
 
 template <typename T>
-GenericCSGObject<T> GenericCSGObject<T>::operator+(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T> GenericCSGObject<T>::operator+(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::UNION, obj1, obj2);
 
@@ -66,8 +60,7 @@ GenericCSGObject<T> GenericCSGObject<T>::operator+(const GenericCSGObject<T>& ob
 }
 
 template <typename T>
-GenericCSGObject<T>& GenericCSGObject<T>::operator+=(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T>& GenericCSGObject<T>::operator+=(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::UNION, obj1, obj2);
   root = obj3.root;
@@ -76,8 +69,7 @@ GenericCSGObject<T>& GenericCSGObject<T>::operator+=(const GenericCSGObject<T>& 
 }
 
 template <typename T>
-GenericCSGObject<T> GenericCSGObject<T>::operator-(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T> GenericCSGObject<T>::operator-(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::EXCLUSION, obj1, obj2);
 
@@ -85,8 +77,7 @@ GenericCSGObject<T> GenericCSGObject<T>::operator-(const GenericCSGObject<T>& ob
 }
 
 template <typename T>
-GenericCSGObject<T>& GenericCSGObject<T>::operator-=(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T>& GenericCSGObject<T>::operator-=(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::EXCLUSION, obj1, obj2);
   root = obj3.root;
@@ -95,8 +86,7 @@ GenericCSGObject<T>& GenericCSGObject<T>::operator-=(const GenericCSGObject<T>& 
 }
 
 template <typename T>
-GenericCSGObject<T> GenericCSGObject<T>::operator*(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T> GenericCSGObject<T>::operator*(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::INTERSECTION, obj1, obj2);
 
@@ -104,8 +94,7 @@ GenericCSGObject<T> GenericCSGObject<T>::operator*(const GenericCSGObject<T>& ob
 }
 
 template <typename T>
-GenericCSGObject<T>& GenericCSGObject<T>::operator*=(const GenericCSGObject<T>& obj2)
-{
+GenericCSGObject<T>& GenericCSGObject<T>::operator*=(const GenericCSGObject<T>& obj2) {
   GenericCSGObject<T> obj1 = *this;
   GenericCSGObject<T> obj3(OP_TYPE::INTERSECTION, obj1, obj2);
   root = obj3.root;
@@ -114,8 +103,7 @@ GenericCSGObject<T>& GenericCSGObject<T>::operator*=(const GenericCSGObject<T>& 
 }
 
 template <typename T>
-Vector GenericCSGObject<T>::intersection(const GenericRay<T>& ray, T& dist)
-{
+Vector GenericCSGObject<T>::intersection(const GenericRay<T>& ray, T& dist) {
   static std::set<T> dists;
   static typename std::set<T>::iterator itr;
   static Vector point;
@@ -134,32 +122,27 @@ Vector GenericCSGObject<T>::intersection(const GenericRay<T>& ray, T& dist)
 }
 
 template <typename T>
-void GenericCSGObject<T>::setPosition(const Vector& position)
-{
+void GenericCSGObject<T>::setPosition(const Vector& position) {
   root->setPosition(position);
 }
 
 template <typename T>
-void GenericCSGObject<T>::setOrientation(const Vector& orientation)
-{
+void GenericCSGObject<T>::setOrientation(const Vector& orientation) {
   root->setOrientation(orientation);
 }
 
 template <typename T>
-void GenericCSGObject<T>::setScale(const Vector& scale)
-{
+void GenericCSGObject<T>::setScale(const Vector& scale) {
   root->setScale(scale);
 }
 
 template <typename T>
-Vector GenericCSGObject<T>::normal(const Vector& point)
-{
+Vector GenericCSGObject<T>::normal(const Vector& point) {
   return NULL;
 }
 
 template <typename T>
-void GenericCSGObject<T>::print(std::ostream& out) const
-{
+void GenericCSGObject<T>::print(std::ostream& out) const {
   root->print(out);
 }
 

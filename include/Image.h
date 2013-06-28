@@ -24,25 +24,19 @@ private:
 
 template <typename T>
 GenericImage<T>::GenericImage()
-    : d_channels(3), d_rows(0), d_cols(0), d_pixels(0)
-{
-}
+    : d_channels(3), d_rows(0), d_cols(0), d_pixels(0) {}
 
 template <typename T>
 GenericImage<T>::GenericImage(int rows, int cols)
-    : d_channels(3), d_rows(rows), d_cols(cols), d_pixels(rows * cols * d_channels)
-{
-}
+    : d_channels(3), d_rows(rows), d_cols(cols), d_pixels(rows * cols * d_channels) {}
 
 template <typename T>
-T& GenericImage<T>::operator()(int row, int col)
-{
+T& GenericImage<T>::operator()(int row, int col) {
   return d_pixels[d_channels * (d_cols * row + col)];
 }
 
 template <typename T>
-void GenericImage<T>::normalize()
-{
+void GenericImage<T>::normalize() {
   T min = 100000.0f;
   T max = 0.0f;
   for (auto itr = d_pixels.begin(); itr != d_pixels.end(); ++itr) {
@@ -56,14 +50,12 @@ void GenericImage<T>::normalize()
 }
 
 template <typename T>
-T& GenericImage<T>::getPixels()
-{
+T& GenericImage<T>::getPixels() {
   return d_pixels[0];
 }
 
 template <typename T>
-void GenericImage<T>::print(std::ostream& out) const
-{
+void GenericImage<T>::print(std::ostream& out) const {
   for (int i = 0; i < d_rows; ++i) {
     for (int j = 0; j < d_cols; ++j) {
       std::cout << "(";

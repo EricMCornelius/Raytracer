@@ -25,26 +25,21 @@ private:
 
 template <typename T>
 GenericScene<T>::GenericScene()
-    : d_camera(), d_image(d_rows, d_cols)
-{
-}
+    : d_camera(), d_image(d_rows, d_cols) {}
 
 template <typename T>
-void GenericScene<T>::addObject(GenericCSGObject<T>* object)
-{
+void GenericScene<T>::addObject(GenericCSGObject<T>* object) {
   d_objects.push_back(object);
   return;
 }
 
 template <typename T>
-void GenericScene<T>::setCamera(const GenericCamera<T>& camera)
-{
+void GenericScene<T>::setCamera(const GenericCamera<T>& camera) {
   d_camera = camera;
 }
 
 template <typename T>
-void GenericScene<T>::draw(int rows, int cols)
-{
+void GenericScene<T>::draw(int rows, int cols) {
   T dist;
   T thisDistance;
   Vector intersection;
@@ -105,8 +100,7 @@ void GenericScene<T>::draw(int rows, int cols)
 }
 
 template <typename T>
-void GenericScene<T>::print(std::ostream& out) const
-{
+void GenericScene<T>::print(std::ostream& out) const {
   d_image.print();
 }
 

@@ -8,8 +8,7 @@
 
 using namespace std;
 
-void getVector(const string& prompt, Vector& vec)
-{
+void getVector(const string& prompt, Vector& vec) {
   vec = Vector(3);
 
   cout << prompt;
@@ -20,8 +19,7 @@ void getVector(const string& prompt, Vector& vec)
   ss >> vec[0] >> vec[1] >> vec[2];
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
   Scene scene;
 
   Vector position;

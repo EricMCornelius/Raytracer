@@ -16,20 +16,17 @@ private:
 
 template <typename T>
 GenericQuaternion<T>::GenericQuaternion(const Vector& axis, const T& theta)
-    : d_axis(axis), d_theta(theta), d_matrix(ZMat4)
-{
+    : d_axis(axis), d_theta(theta), d_matrix(ZMat4) {
   calcMatrix();
 }
 
 template <typename T>
-Matrix& GenericQuaternion<T>::matrix()
-{
+Matrix& GenericQuaternion<T>::matrix() {
   return d_matrix;
 }
 
 template <typename T>
-void GenericQuaternion<T>::calcMatrix()
-{
+void GenericQuaternion<T>::calcMatrix() {
   T cosine = cos(d_theta);
   T oneMinusCosine = 1 - cosine;
   T sine = sin(d_theta);

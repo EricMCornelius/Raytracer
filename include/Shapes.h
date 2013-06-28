@@ -9,8 +9,7 @@ class GenericSphere {
 public:
   GenericSphere() : d_sphere(GenericQuadric<T>::SPHERE) {};
 
-  GenericCSGObject<T>* getObject()
-  {
+  GenericCSGObject<T>* getObject() {
     GenericCSGObject<T>* objPtr = new GenericCSGObject<T>(d_sphere);
     return objPtr;
   }
@@ -27,8 +26,7 @@ class GenericCone {
 public:
   GenericCone() : d_cone(GenericQuadric<T>::SHAPE_TYPE::CONE) {};
 
-  GenericCSGObject<T>* getObject()
-  {
+  GenericCSGObject<T>* getObject() {
     GenericCSGObject<T>* objPtr = new GenericCSGObject<T>(d_cone);
     return objPtr;
   }
@@ -43,8 +41,7 @@ typedef GenericCone<float> Cone;
 template <typename T>
 class GenericCube {
 public:
-  GenericCube()
-  {
+  GenericCube() {
     GenericQuadric<T> plane(2);
     Vector ori;
     Vector pos;
@@ -102,10 +99,7 @@ public:
   }
   ;
 
-  GenericCSGObject<T> getObject()
-  {
-    return d_cube;
-  }
+  GenericCSGObject<T> getObject() { return d_cube; }
   ;
 
 private:
@@ -117,12 +111,9 @@ typedef GenericCube<float> Cube;
 template <typename T>
 class GenericCylinder {
 public:
-  GenericCylinder() : d_cylinder(GenericQuadric<T>::CYLINDER)
-  {
-  }
+  GenericCylinder() : d_cylinder(GenericQuadric<T>::CYLINDER) {}
 
-  GenericCSGObject<T>* getObject()
-  {
+  GenericCSGObject<T>* getObject() {
     GenericCSGObject<T>* objPtr = new GenericCSGObject<T>(d_cylinder);
     return objPtr;
   }

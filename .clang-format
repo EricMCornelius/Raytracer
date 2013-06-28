@@ -3,4 +3,4 @@ Standard: C++11
 ColumnLimit: 160
 IndentWidth: 2
 AccessModifierOffset: -2
-BreakBeforeBraces: Stroustrup
+BreakBeforeBraces: Attach
