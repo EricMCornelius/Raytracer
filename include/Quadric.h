@@ -45,46 +45,47 @@ private:
 
 template <typename T>
 GenericQuadric<T>::GenericQuadric(const SHAPE_TYPE& type)
-  : transMat(IMat4), scaleMat(IMat4), rotMat(IMat4), oMat(ZMat4), qMat(ZMat4), position(ZVec3), orientation(ZVec3), scale(ZVec3) {
+    : transMat(IMat4), scaleMat(IMat4), rotMat(IMat4), oMat(ZMat4), qMat(ZMat4), position(ZVec3), orientation(ZVec3), scale(ZVec3)
+{
 
   initialize();
 
-  switch(type) {
+  switch (type) {
     case SPHERE:
       shape = SPHERE;
-      oMat(0,0) = 1;
-      oMat(1,1) = 1;
-      oMat(2,2) = 1;
-      oMat(3,3) = -1;
+      oMat(0, 0) = 1;
+      oMat(1, 1) = 1;
+      oMat(2, 2) = 1;
+      oMat(3, 3) = -1;
       qMat = Matrix(oMat);
       break;
     case CYLINDER:
       shape = CYLINDER;
-      oMat(0,0) = 1;
-      oMat(2,2) = 1;
-      oMat(3,3) = -1;
+      oMat(0, 0) = 1;
+      oMat(2, 2) = 1;
+      oMat(3, 3) = -1;
       qMat = Matrix(oMat);
       break;
     case PLANE:
       shape = PLANE;
-      oMat(1,3) = 1;
-      oMat(3,1) = 1;
+      oMat(1, 3) = 1;
+      oMat(3, 1) = 1;
       qMat = Matrix(oMat);
       break;
     case CONE:
       shape = CONE;
-      oMat(0,0) = 1;
-      oMat(1,1) = -1;
-      oMat(2,2) = 1;
-      oMat(3,3) = -1;
+      oMat(0, 0) = 1;
+      oMat(1, 1) = -1;
+      oMat(2, 2) = 1;
+      oMat(3, 3) = -1;
       qMat = Matrix(oMat);
       break;
     case PARABOLOID:
       shape = PARABOLOID;
-      oMat(0,0) = 1;
-      oMat(2,2) = 1;
-      oMat(1,3) = -2;
-      oMat(3,1) = -2;
+      oMat(0, 0) = 1;
+      oMat(2, 2) = 1;
+      oMat(1, 3) = -2;
+      oMat(3, 1) = -2;
       qMat = Matrix(oMat);
       break;
   }
@@ -92,23 +93,32 @@ GenericQuadric<T>::GenericQuadric(const SHAPE_TYPE& type)
 
 template <typename T>
 GenericQuadric<T>::GenericQuadric(const Matrix& matrix)
-  : transMat(IMat4), scaleMat(IMat4), rotMat(IMat4), oMat(matrix), qMat(matrix), position(ZVec3), orientation(ZVec3), scale(ZVec3) {
+    : transMat(IMat4), scaleMat(IMat4), rotMat(IMat4), oMat(matrix), qMat(matrix), position(ZVec3), orientation(ZVec3), scale(ZVec3)
+{
 
   initialize();
   return;
 }
 
 template <typename T>
-GenericQuadric<T>::GenericQuadric(const GenericQuadric<T> &copyQuad) 
-  : transMat(copyQuad.transMat), scaleMat(copyQuad.scaleMat), rotMat(copyQuad.rotMat), 
-    oMat(copyQuad.oMat), qMat(copyQuad.qMat), position(copyQuad.position), orientation(copyQuad.orientation), scale(copyQuad.scale) {
+GenericQuadric<T>::GenericQuadric(const GenericQuadric<T>& copyQuad)
+    : transMat(copyQuad.transMat),
+      scaleMat(copyQuad.scaleMat),
+      rotMat(copyQuad.rotMat),
+      oMat(copyQuad.oMat),
+      qMat(copyQuad.qMat),
+      position(copyQuad.position),
+      orientation(copyQuad.orientation),
+      scale(copyQuad.scale)
+{
 
   initialize();
   return;
 }
 
 template <typename T>
-void GenericQuadric<T>::initialize() {
+void GenericQuadric<T>::initialize()
+{
   scale[0] = 1;
   scale[1] = 1;
   scale[2] = 1;
@@ -121,7 +131,8 @@ void GenericQuadric<T>::initialize() {
 }
 
 template <typename T>
-void GenericQuadric<T>::intersection(const GenericRay<T>& ray, std::set<T>& dists) {
+void GenericQuadric<T>::intersection(const GenericRay<T>& ray, std::set<T>& dists)
+{
   static Matrix positionR;
   positionR = ray.position;
   positionR.reshape(1, 4);
@@ -139,36 +150,33 @@ void GenericQuadric<T>::intersection(const GenericRay<T>& ray, std::set<T>& dist
   params[0] = paramVec1[0];
   paramVec1 = 2 * (positionR * qMat * arma::trans(directionR));
   params[1] = paramVec1[0];
-  //Vector paramVec2_1 = 2 * (positionR * qMat * directionC);
-  //Vector paramVec2_2 = (directionR * qMat * positionC);
-  //params[1] = paramVec2_1[0] + paramVec2_2[0];
+  // Vector paramVec2_1 = 2 * (positionR * qMat * directionC);
+  // Vector paramVec2_2 = (directionR * qMat * positionC);
+  // params[1] = paramVec2_1[0] + paramVec2_2[0];
   paramVec1 = (positionR * qMat * arma::trans(positionR));
   params[2] = paramVec1[0];
 
   static T discriminant;
-  discriminant = (params[1]*params[1] - 4*params[0]*params[2]);
+  discriminant = (params[1] * params[1] - 4 * params[0] * params[2]);
   if (discriminant < 0)
     return;
-  else if(params[1] != 0) {
+  else if (params[1] != 0) {
     discriminant = sqrt(discriminant);
     T pVal = (-params[1] + discriminant) / (2 * params[0]);
     T mVal = (-params[1] - discriminant) / (2 * params[0]);
 
-    if (pVal > 0)
-      dists.insert(pVal);
-    if(mVal > 0)
-      dists.insert(mVal);
-  }
-  else {
-    T lVal = -params[2]/params[1];
+    if (pVal > 0) dists.insert(pVal);
+    if (mVal > 0) dists.insert(mVal);
+  } else {
+    T lVal = -params[2] / params[1];
 
-    if (lVal > 0)
-      dists.insert(lVal);
+    if (lVal > 0) dists.insert(lVal);
   }
 }
 
 template <typename T>
-Vector GenericQuadric<T>::normal(const Vector& point) {
+Vector GenericQuadric<T>::normal(const Vector& point)
+{
   using namespace arma;
   Matrix mat = point.t() * qMat;
   Vector vec = mat.row(0);
@@ -177,17 +185,16 @@ Vector GenericQuadric<T>::normal(const Vector& point) {
 }
 
 template <typename T>
-void GenericQuadric<T>::setPosition(const Vector& position) {
-  T translateVals[16] = { 1, 0, 0, 0,
-                          0, 1, 0, 0,
-                          0, 0, 1, 0,
-                          position[0], position[1], position[2], 1 };
-  transMat = arma::inv(Matrix(translateVals,4,4));
+void GenericQuadric<T>::setPosition(const Vector& position)
+{
+  T translateVals[16] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, position[0], position[1], position[2], 1};
+  transMat = arma::inv(Matrix(translateVals, 4, 4));
   calculateMatrix();
 }
 
 template <typename T>
-void GenericQuadric<T>::setOrientation(const Vector& orientation) {
+void GenericQuadric<T>::setOrientation(const Vector& orientation)
+{
   Vector standardOri(3);
   standardOri[0] = 0;
   standardOri[1] = 1;
@@ -202,17 +209,16 @@ void GenericQuadric<T>::setOrientation(const Vector& orientation) {
 }
 
 template <typename T>
-void GenericQuadric<T>::setScale(const Vector& scale) {
-  T scaleVals[16] = { scale[0], 0, 0, 0,
-                      0, scale[1], 0, 0,
-                      0, 0, scale[2], 0,
-                      0, 0, 0, 1 };
-  scaleMat = arma::inv(Matrix(scaleVals,4,4));
+void GenericQuadric<T>::setScale(const Vector& scale)
+{
+  T scaleVals[16] = {scale[0], 0, 0, 0, 0, scale[1], 0, 0, 0, 0, scale[2], 0, 0, 0, 0, 1};
+  scaleMat = arma::inv(Matrix(scaleVals, 4, 4));
   calculateMatrix();
 }
 
 template <typename T>
-bool GenericQuadric<T>::contains(const Vector& point) {
+bool GenericQuadric<T>::contains(const Vector& point)
+{
   static Matrix pointR;
   static Vector valVec;
   static T val;
@@ -230,12 +236,14 @@ bool GenericQuadric<T>::contains(const Vector& point) {
 }
 
 template <typename T>
-void GenericQuadric<T>::calculateMatrix() {
+void GenericQuadric<T>::calculateMatrix()
+{
   qMat = arma::trans(transMat) * (arma::trans(rotMat) * (arma::trans(scaleMat) * oMat * scaleMat) * rotMat) * transMat;
 }
 
 template <typename T>
-void GenericQuadric<T>::print(std::ostream& out) const {
+void GenericQuadric<T>::print(std::ostream& out) const
+{
   qMat.print(out);
 }
 

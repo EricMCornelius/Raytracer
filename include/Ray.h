@@ -4,7 +4,7 @@
 template <typename T>
 class GenericRay {
 public:
-  GenericRay() { };
+  GenericRay() {};
   GenericRay(const Vector& direction, const Vector& position);
   Vector direction;
   Vector position;
@@ -12,10 +12,14 @@ public:
 };
 
 template <typename T>
-GenericRay<T>::GenericRay(const Vector& _position, const Vector& _direction) : position(_position), direction(_direction) { }
+GenericRay<T>::GenericRay(const Vector& _position, const Vector& _direction)
+    : position(_position), direction(_direction)
+{
+}
 
 template <typename T>
-void GenericRay<T>::print(std::ostream& out) const {
+void GenericRay<T>::print(std::ostream& out) const
+{
   position.print(out);
   direction.print(out);
   std::cout << std::endl;
